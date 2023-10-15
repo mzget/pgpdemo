@@ -1,30 +1,11 @@
 import openpgp from "openpgp";
 import fs, { ReadStream } from "fs";
 
-const publicKeyArmored = fs
-  .readFileSync("keys/publicKey.key", { flag: "r", encoding: "utf-8" })
-  .toString();
-const privateKeyArmored = fs
-  .readFileSync("keys/privateKey.key", { flag: "r", encoding: "utf-8" })
-  .toString();
+import { getPrivateKey, getPublicKeys } from "./keyManager.js";
 
 async function encrypt() {
-  // const publicKeys = await Promise.all(
-  //   publicKeysArmored.map((armoredKey) => openpgp.readKey({ armoredKey }))
-  // );
-  // const privateKey = await openpgp.decryptKey({
-  //   privateKey: (await openpgp.readKey({
-  //     armoredKey: privateKeyArmored,
-  //   })) as openpgp.PrivateKey,
-  // });
-
-  const publicKeys = await openpgp.readKeys({ armoredKeys: publicKeyArmored });
-  const privateKey = await openpgp.readPrivateKey({
-    armoredKey: privateKeyArmored,
-  });
-  // const privateKeyPass = await openpgp.decryptKey({
-  //   privateKey,
-  // });
+  const publicKeys = await getPublicKeys();
+  const privateKey = await getPrivateKey();
 
   const plainData = fs.createReadStream("pgp/src/secrets.txt", "utf8");
 
