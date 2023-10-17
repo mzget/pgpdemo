@@ -3,7 +3,7 @@ import fs, { ReadStream } from "fs";
 
 import { getPrivateKey, getPublicKeys } from "./keyManager.js";
 
-async function encrypt() {
+export async function encrypt() {
   const publicKeys = await getPublicKeys();
   const privateKey = await getPrivateKey();
 
@@ -15,14 +15,16 @@ async function encrypt() {
     signingKeys: privateKey, // optional
   });
 
-  let writeStream = fs.createWriteStream(
-    "pgp/encrypted/encrypted-secrets.txt",
-    {
-      flags: "a",
-    }
-  );
-  encrypted.pipe(writeStream);
-  encrypted.on("end", () => console.log("done!"));
+  return new Promise((resolve, reject) => {
+    let writeStream = fs.createWriteStream(
+      "pgp/encrypted/encrypted-secrets.txt",
+      {
+        flags: "a",
+      }
+    );
+    encrypted.pipe(writeStream);
+    encrypted.on("end", resolve("done"));
+  });
 }
 
-encrypt();
+// encrypt();
