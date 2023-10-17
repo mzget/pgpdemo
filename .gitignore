@@ -128,3 +128,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 pgp/encrypted/encrypted-secrets.txt
+.vscode/
+dest/
