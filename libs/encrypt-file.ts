@@ -23,7 +23,15 @@ export async function encrypt() {
       }
     );
     encrypted.pipe(writeStream);
-    encrypted.on("end", resolve("done"));
+    encrypted.on("end", () => {
+      const data = fs.readFileSync(
+        "pgp/encrypted/encrypted-secrets.txt",
+        "utf8"
+      );
+      const str = data.toString();
+      console.log(str);
+      resolve(str);
+    });
   });
 }
 

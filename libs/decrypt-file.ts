@@ -25,15 +25,14 @@ export async function decrypt() {
             console.log(chunk);
             plaintext += chunk;
           })
+          .on("error", (err) => {
+            reject(`error : ${err.message}`);
+          })
           .on("end", () => {
             fs.writeFileSync("pgp/decrypted/decrypted.txt", plaintext, {
               encoding: "utf8",
             });
-
-            resolve("done");
-          })
-          .on("error", (err) => {
-            reject(`error : ${err.message}`);
+            resolve(plaintext);
           });
       })
       .catch((err) => {
