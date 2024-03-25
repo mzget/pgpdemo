@@ -1,14 +1,16 @@
 import openpgp from "openpgp";
 import fs from "fs";
-import { getPrivateKey, getPublicKeys } from "./keyManager.js";
+import { getPrivateKey } from "./keyManager.js";
 export async function decrypt() {
-    const publicKeys = await getPublicKeys();
+    // const publicKeys = await getPublicKeys();
     const privateKey = await getPrivateKey();
-    const plainData = fs.createReadStream("pgp/encrypted/encrypted-secrets.txt", "utf8");
+    const srcPath = "pgp/encrypted/encrypted-secrets.txt.pgp";
+    const destPath = "pgp/decrypted/decrypted.txt";
+    const plainData = fs.createReadStream(srcPath, "utf8");
     let plaintext = "";
     let decrypted = openpgp.decrypt({
         message: await openpgp.readMessage({ armoredMessage: plainData }),
-        verificationKeys: publicKeys,
+        // verificationKeys: publicKeys, // optional
         decryptionKeys: privateKey,
     });
     return new Promise((resolve, reject) => {
@@ -23,10 +25,9 @@ export async function decrypt() {
                 reject(`error : ${err.message}`);
             })
                 .on("end", () => {
-                fs.writeFileSync("pgp/decrypted/decrypted.txt", plaintext, {
+                fs.writeFileSync(destPath, plaintext, {
                     encoding: "utf8",
                 });
-                console.log(plaintext);
                 resolve(plaintext);
             });
         })
