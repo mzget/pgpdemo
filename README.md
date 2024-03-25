@@ -20,19 +20,9 @@ We support GnuPG 1.4, OpenPGP standard, then partner can encrypt file before sen
 
 \*\* More detail about generate GPG key read [this link](https://docs.github.com/en/authentication/managing-commit-signature-verification/generating-a-new-gpg-key?platform=windows)
 
-## Encrypt/Decrypt with GnuPG command line
-
-```cmd
-# Encrypt file
-
-gpg --always-trust --yes --no-random-seed-file  --output "file_name.txt.pgp" -r KBankH2HPgpUAT --encrypt "file_name.txt"
-
-# Decrypt file
-
-gpg --batch --always-trust --yes --output "file_name_output.*" --passphrase xxxxx --decrypt "file_name_input.pgp"
-```
-
 ## Encrypt/Decrypt with OpenPGP standard
+
+- [Developer Libraries/Tools](https://www.openpgp.org/software/developer/)
 
 ### Encryption
 
@@ -138,4 +128,16 @@ export async function decrypt() {
       });
   });
 }
+```
+
+## Encrypt/Decrypt with GnuPG command line
+
+```cmd
+# Encrypt file
+
+gpg --always-trust --yes --no-random-seed-file  --output "file_name.txt.pgp" -r KBankH2HPgpUAT --encrypt "file_name.txt"
+
+# Decrypt file
+
+gpg --batch --always-trust --yes --output "file_name_output.*" --passphrase xxxxx --decrypt "file_name_input.pgp"
 ```
