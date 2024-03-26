@@ -24,27 +24,10 @@ We support GnuPG 1.4, OpenPGP standard, then partner can encrypt file before sen
 
 - [Developer Libraries/Tools](https://www.openpgp.org/software/developer/)
 
-### Encryption
+### Encryption (openpgp.js)
 
 ```js
-export async function getPublicKeys() {
-  const publicKeyArmored = fs
-    .readFileSync("keys/KBankH2HPgpUAT.pub.txt", {
-      flag: "r",
-      encoding: "utf-8",
-    })
-    .toString();
-
-  let key;
-  await openpgp
-    .readKey({ armoredKey: publicKeyArmored })
-    .catch((err) => console.log("pub error", err))
-    .then((val) => {
-      key = val;
-    });
-  return await key;
-}
-
+// libs/encrypt-file.ts
 export async function encrypt() {
   const publicKeys = await getPublicKeys();
 
@@ -71,30 +54,10 @@ export async function encrypt() {
 }
 ```
 
-### Decryption
+### Decryption (openpgp.js)
 
 ```js
-export async function getPrivateKey() {
-  const privateKeyArmored = fs
-    .readFileSync("keys/your_secret_key.txt", {
-      flag: "r",
-      encoding: "utf-8",
-    })
-    .toString();
-
-  let key;
-  await openpgp
-    .readPrivateKey({
-      armoredKey: privateKeyArmored,
-    })
-    .catch((err) => console.log("sec err", err))
-    .then((val) => {
-      key = val;
-    });
-
-  return await key;
-}
-
+// libs/decrypt-file.ts
 export async function decrypt() {
   const privateKey = await getPrivateKey();
 
