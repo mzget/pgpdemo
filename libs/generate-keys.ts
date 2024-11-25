@@ -1,4 +1,4 @@
-import openpgp from "openpgp";
+import * as openpgp from "openpgp";
 import fs from "fs";
 
 export async function generate() {

@@ -1,9 +1,9 @@
 import fs, { ReadStream } from "fs";
-import openpgp from "openpgp";
+import * as openpgp from "openpgp";
 
 export async function getPublicKeys() {
   const publicKeyArmored = fs
-    .readFileSync("keys/nattapon_r.pub.txt", {
+    .readFileSync("keys/get_rsa_publicKey.asc", {
       flag: "r",
       encoding: "utf-8",
     })
@@ -21,7 +21,7 @@ export async function getPublicKeys() {
 
 export async function getPrivateKey() {
   const privateKeyArmored = fs
-    .readFileSync("keys/nattapon_r.txt", {
+    .readFileSync("keys/get_rsa_privateKey.txt", {
       flag: "r",
       encoding: "utf-8",
     })
@@ -36,6 +36,8 @@ export async function getPrivateKey() {
     .then((val) => {
       key = val;
     });
+
+
 
   return await key;
 }
