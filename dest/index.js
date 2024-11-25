@@ -1,7 +1,7 @@
 import fastify from "fastify";
 import { generate } from "./libs/generate-keys.js";
 import { encrypt } from "./libs/encrypt-file.js";
-import { decrypt } from "./libs/decrypt-file.js";
+import { decrypt, decrypt2 } from "./libs/decrypt-file.js";
 const server = fastify();
 /**
  *  curl localhost:8080/ping
@@ -21,6 +21,9 @@ server.post("/encrypt", async (request, reply) => {
 });
 server.post("/decrypt", async (request, reply) => {
     return decrypt();
+});
+server.post("/v2/decrypt", async (request, reply) => {
+    return decrypt2();
 });
 server.listen({ port: 8080, host: "0.0.0.0" }, (err, address) => {
     if (err) {
